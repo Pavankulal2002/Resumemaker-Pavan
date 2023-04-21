@@ -165,6 +165,7 @@ def employee_delete(request, id):
 
 ##########################################################################################
 #pdf and word filegeneration
+import ast
 
 def view_resume(request,id):
     employee = get_object_or_404(Employee, id=id)
@@ -175,6 +176,12 @@ def view_resume(request,id):
     eskill=employee.coding_skills.all()
     eid=id
     eproject=employee.mapped_project.all()
+
+    for project in eproject:
+        project.role_responsibilities = project.role_responsibilities.split('#')
+        project.technology_used = ast.literal_eval(project.technology_used)
+       
+
     context = {
         'ename': ename,
         'edesignation': edesignation,

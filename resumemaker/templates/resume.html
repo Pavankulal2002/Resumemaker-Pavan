@@ -52,17 +52,20 @@
 	<p class="heading1" style="padding-top: 0.5cm;font-size: large;font-weight: bold;">Professional Projects:</p>
 
 
-{% for project in eproject %}
+	{% for project in eproject %}
 	<p style="font-size:large;font-weight:bold">Project {{ forloop.counter }}: {{ project.project_name }}</p>
 	<ul>
-		<li>Technology used: {{ project.technology_used}}</li>
+		<li>Technology used: {% for tech in project.technology_used %}{{ tech }}, {% endfor %}</li>
 		<li>Description: {{ project.description }}</li>
 		<li>Role and Responsibilities:</li>
 		<ul>
-			<li>{{ project.role_responsibilities }}</li>
+			{% for responsibility in project.role_responsibilities %}
+				<li>{{ responsibility }}</li>
+			{% endfor %}
 		</ul>
 	</ul>
 {% endfor %}
+
 	
 </div>
 <button  class="btn btn-sm btn-primary"onclick="downloadPDF()">Download PDF</button>
