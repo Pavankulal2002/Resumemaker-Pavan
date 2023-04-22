@@ -1,0 +1,1 @@
+gunicorn resumemaker.wsgi:application
