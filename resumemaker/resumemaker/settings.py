@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +26,7 @@ SECRET_KEY = 'django-insecure-(ck6u=%%edf%$n2kizgy0-vkaxll2$r!#2*g3p-afgsq39ld9x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -80,11 +79,17 @@ WSGI_APPLICATION = 'resumemaker.wsgi.application'
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
 #         'NAME': BASE_DIR / 'db.sqlite3',
-
 #     }
 # }
 DATABASES = {
-    'default': dj_database_url.parse(os.environ.get('ec'))
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'resumemaker',
+        'USER': 'resumemaker_user',
+        'PASSWORD': '3dtb0YCJv8CWwx8mcChGwOOWyYrumDgt',
+        'HOST': 'dpg-ch152n0rddl13a5ilo50-a.oregon-postgres.render.com',
+        'PORT': '5432',
+    }
 }
 
 
