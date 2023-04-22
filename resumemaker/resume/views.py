@@ -1,13 +1,16 @@
+import ast
 from io import BytesIO
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import HttpResponse
 from django.shortcuts import render
 
-# Create your views here.
-from django.http import HttpResponseRedirect
-from django.shortcuts import HttpResponse
-from django.shortcuts import render,redirect
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate,login,logout
-from django.contrib.auth.models import User
+from .forms import CodingSkillForm, EmployeeForm, MapProjectForm, ProjectForm, ToolForm
+from .models import CodingSkill, Employee, Projects, Tool
 
 
 
@@ -42,10 +45,6 @@ def userlogout(request):
     logout(request)
     return redirect('/')
 
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Tool
-from .forms import ToolForm
-
 
 def tools_list(request):
     tools = Tool.objects.filter(flag=True)
@@ -77,8 +76,7 @@ def delete_tool(request, pk):
     tool.flag = False
     tool.save()
     return redirect('tools_list')
-from .forms import CodingSkillForm
-from .models import CodingSkill
+
 
 def coding_list(request):
     coding_skills = CodingSkill.objects.filter(flag=1)
@@ -116,15 +114,6 @@ def delete_coding_skill(request, coding_skill_id):
 
 
 ################################################################################
-from django.shortcuts import render
-from .models import Employee
-from django.shortcuts import render, redirect
-from .forms import EmployeeForm
-from django.shortcuts import render, get_object_or_404, redirect
-from .forms import EmployeeForm
-from .models import Employee
-from django.shortcuts import get_object_or_404, redirect
-from .models import Employee
 
 
 def employee_list(request):
@@ -165,7 +154,7 @@ def employee_delete(request, id):
 
 ##########################################################################################
 #pdf and word filegeneration
-import ast
+
 
 def view_resume(request,id):
     employee = get_object_or_404(Employee, id=id)
@@ -200,11 +189,6 @@ def view_resume(request,id):
 
 ################################################################################################
 
-
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from .models import Employee, Projects
-from .forms import MapProjectForm
 
 def map_project(request,id):
     employee = Employee.objects.get(id=id)
@@ -259,15 +243,12 @@ def map_project(request,id):
 #     context = {'project': project}
 #     return render(request, 'project_delete.html', context)
 
-from django.shortcuts import render
-from .models import Projects
 
 def project_list(request):
     projects = Projects.objects.filter(flag=1)
     context = {'projects': projects}
     return render(request, 'project_list.html', context)
-from django.shortcuts import render, redirect
-from .forms import ProjectForm
+
 
 def project_create(request):
     if request.method == 'POST':
@@ -280,10 +261,7 @@ def project_create(request):
     context = {'form': form}
     return render(request, 'project_create.html', context)
 
-    
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Projects
-from .forms import ProjectForm
+
 
 def project_edit(request, pk):
     project = get_object_or_404(Projects, pk=pk)
@@ -297,9 +275,8 @@ def project_edit(request, pk):
     context = {'form': form}
     return render(request, 'edit_project.html', context)
 
-from django.shortcuts import get_object_or_404, redirect, render
-from .models import Projects
-from .forms import ProjectForm
+
+
 
 def project_delete(request, pk):
     project = get_object_or_404(Projects, pk=pk)
